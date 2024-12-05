@@ -25,7 +25,7 @@ class DestinosBase:
         query = """
                     SELECT d.idDestino, d.destino, estrellas, imagenURL, MIN(l.precio) as precio_minimo FROM	
                     destinos as d
-                    INNER JOIN lista_destinos as l
+                    INNER JOIN lista_catalogos as l
                     ON d.idDestino = l.idDestino
                     GROUP BY l.idDestino
                 """
@@ -43,8 +43,105 @@ class DestinosBase:
             }
             destinos.append(destino)
         return destinos if destinos else None
+    
+
+
+################################ CATALOGOS BASE #####################################
         
-        
+class CatalogosBase:
+    @classmethod
+    def ver_catalogos(cls, idDestino):
+        db = Database()
+        query = """
+                    SELECT * from lista_catalogos as l 
+                    INNER JOIN destinos as d
+                    on l.idDestino = d.idDestino
+                    where l.idDestino = %s
+                """
+        db.cursor.execute(query, (idDestino,))
+        resultados = db.cursor.fetchall()
+        db.close()
+        catalogos = []
+        for resultado in resultados:
+            cat = {
+                "idCatalogo": resultado[0], 
+                "idDestino": resultado[1],         # Ajusta el índice según la estructura de tu tabla
+                "nombre": resultado[2],     # Ajusta el índice según la estructura de tu tabla
+                "precio": resultado[3], 
+                "adultos": resultado[4],
+                "ninos": resultado[5],
+                "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
+                "noches": resultado[7],
+                "descripcion": resultado[8],     # Ajusta el índice según la estructura de tu tabla
+                "destino": resultado[11],
+                "imagenURL": resultado[13]
+            }
+            catalogos.append(cat)
+        return catalogos if catalogos else None
+    
+
+
+    @classmethod
+    def ver_catalogo(cls, idCatalogo):
+        db = Database()
+        query = """
+                    SELECT * from lista_catalogos as l 
+                    INNER JOIN destinos as d
+                    on l.idDestino = d.idDestino
+                    where l.id = %s
+                """
+        db.cursor.execute(query, (idCatalogo,))
+        resultados = db.cursor.fetchall()
+        db.close()
+        catalogos = []
+        for resultado in resultados:
+            cat = {
+                "idCatalogo": resultado[0], 
+                "idDestino": resultado[1],         # Ajusta el índice según la estructura de tu tabla
+                "nombre": resultado[2],     # Ajusta el índice según la estructura de tu tabla
+                "precio": resultado[3], 
+                "adultos": resultado[4],
+                "ninos": resultado[5],
+                "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
+                "noches": resultado[7],
+                "descripcion": resultado[8],     # Ajusta el índice según la estructura de tu tabla
+                "destino": resultado[11],
+                "imagenURL": resultado[13]
+            }
+            catalogos.append(cat)
+        return catalogos if catalogos else None
+
+
+    @classmethod
+    def ver_incluye_catalogos(cls, idCatalogo):
+        db = Database()
+        query = """
+                    SELECT sc.idCatalogo as idCatalogo, lc.nombre as nombreCatalogo,s.id as idServicio ,s.nombre as tipoServicio ,sc.detalle as observaciones
+                    from catalogos_servicios as sc
+                    INNER JOIN servicios as s on sc.idServicio = s.id
+                    INNER JOIN lista_catalogos as lc on lc.id = sc.idCatalogo
+                    WHERE sc.idCatalogo = %s
+                """
+        db.cursor.execute(query, (idCatalogo,))
+        resultados = db.cursor.fetchall()
+        db.close()
+        incluye = []
+        for resultado in resultados:
+            cat = {
+                "idServicio": resultado[2],         # Ajusta el índice según la estructura de tu tabla
+                "nombreServicio": resultado[3],     # Ajusta el índice según la estructura de tu tabla
+                "observaciones": resultado[4]
+            }
+            incluye.append(cat)
+        return incluye if incluye else None
+
+
+
+
+
+
+
+
 
 
 

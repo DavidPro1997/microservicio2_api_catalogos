@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from app.services import Destinos
+from app.services import Destinos, Catalogos
 
 app = Flask(__name__)
 
@@ -9,7 +9,7 @@ def index():
 
 
 
-######################### DESTINOS #############################
+############################ DESTINOS (PAISES) ################################
 
 # @app.route('/crearDestino', methods=['POST'])
 # def crear_destino():
@@ -31,17 +31,17 @@ def ver_destinos():
 
 
 
-######################### MOSTRAR #############################
+################################# CATALOGOS ####################################
+
+@app.route('/verCatalogos/<int:idDestino>', methods=['GET'])
+def ver_catalogos(idDestino):
+    respuesta = Catalogos.ver_catalogos(idDestino)
+    return jsonify(respuesta)
 
 
-
-
-
-
-
-# @app.route('/detalleDestino/<int:id>', methods=['GET'])
-# def descargar_plantilla(id):
-#     respuesta = Switch.verificar_tipo_doc_descarga(id)
-#     return jsonify(respuesta)
+@app.route('/verCatalogo/<int:idCatalogo>', methods=['GET'])
+def ver_catalogo(idCatalogo):
+    respuesta = Catalogos.ver_catalogo(idCatalogo)
+    return jsonify(respuesta)
 
 
