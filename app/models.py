@@ -23,8 +23,8 @@ class DestinosBase:
     def ver_destinos(cls):
         db = Database()
         query = """
-                    SELECT d.idDestino, d.destino, estrellas, imagenURL, MIN(l.precio) as precio_minimo FROM	
-                    destinos as d
+                    SELECT d.idDestino, d.destino, estrellas, imagenURL, MIN(l.precio) as precio_minimo, COUNT(l.precio) as numeroCatalogos 
+                    FROM destinos as d
                     INNER JOIN lista_catalogos as l
                     ON d.idDestino = l.idDestino
                     GROUP BY l.idDestino
@@ -39,7 +39,8 @@ class DestinosBase:
                 "destino": resultado[1],     # Ajusta el índice según la estructura de tu tabla
                 "estrellas": resultado[2],   # Ajusta el índice según la estructura de tu tabla
                 "imagenURL": resultado[3],     # Ajusta el índice según la estructura de tu tabla
-                "precio_minimo": resultado[4]
+                "precio_minimo": resultado[4],
+                "catalogos": resultado[5]
             }
             destinos.append(destino)
         return destinos if destinos else None
