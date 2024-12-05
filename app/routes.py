@@ -1,7 +1,17 @@
 from flask import Flask, request, jsonify
 from app.services import Destinos, Catalogos
+from flask_cors import CORS
 
 app = Flask(__name__)
+
+
+# Configuración de CORS específica con encabezados y métodos permitidos
+CORS(app, resources={r"/*": {"origins": ["http://dev.mvevip_website.com","https://website.mvevip.com","https://mvevip.com"]}}, 
+     supports_credentials=True, 
+     allow_headers=["Content-Type", "Authorization"],
+     methods=["POST", "OPTIONS", "GET", "DELETE"])
+
+
 
 @app.route('/')
 def index():
