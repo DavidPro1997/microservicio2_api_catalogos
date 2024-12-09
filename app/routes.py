@@ -43,9 +43,9 @@ def ver_destinos():
 
 ################################# CATALOGOS ####################################
 
-@app.route('/vf', methods=['GET'])
-def ver_catalogos():
-    respuesta = "Catalogos.ver_catalogos()"
+@app.route('/verCatalogos', methods=['GET'])
+def ver_catalogos_todos():
+    respuesta = Catalogos.ver_catalogos()
     return jsonify(respuesta)
 
 
