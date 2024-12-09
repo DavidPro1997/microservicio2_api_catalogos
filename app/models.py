@@ -135,6 +135,33 @@ class CatalogosBase:
             }
             incluye.append(cat)
         return incluye if incluye else None
+    
+
+
+    @classmethod
+    def ver_terminos_catalogos(cls, idCatalogo):
+        db = Database()
+        query = """
+                    SELECT st.idCatalogo, st.idTermino, t.termino
+                    from catalogos_terminos as st
+                    INNER JOIN terminos as t on st.idTermino = t.idTermino
+                    WHERE st.idCatalogo = %s
+                """
+        db.cursor.execute(query, (idCatalogo,))
+        resultados = db.cursor.fetchall()
+        db.close()
+        terminos = []
+        for resultado in resultados:
+            term = {
+                "idCatalogo": resultado[0],         # Ajusta el índice según la estructura de tu tabla
+                "idTermino": resultado[1],     # Ajusta el índice según la estructura de tu tabla
+                "termino": resultado[2]
+            }
+            terminos.append(term)
+        return terminos if terminos else None
+
+
+
 
 
 

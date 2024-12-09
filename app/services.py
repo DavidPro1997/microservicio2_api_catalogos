@@ -32,21 +32,7 @@ class Catalogos:
         if catalogos is not None:
             for element in catalogos:
                 incluye = CatalogosBase.ver_incluye_catalogos(element['idCatalogo'])
-                resultado = {}
-                for item in incluye:
-                    id_servicio = item["idServicio"]
-                    observaciones = item["observaciones"]
-                    if id_servicio not in resultado:
-                        resultado[id_servicio] = {
-                            "idServicio": id_servicio,
-                            "nombreServicio": item["nombreServicio"],
-                            "observaciones": [observaciones],
-                        }
-                    else:
-                        # Si ya está, agrega la observación
-                        resultado[id_servicio]["observaciones"].append(observaciones)
-                output = list(resultado.values())
-                element['incluye'] = output
+                element['incluye'] = Catalogos.unificar_servicios(incluye)
             return {"estado":True, "mensaje": "Consulta completada", "datos": catalogos}
         else:
             return {"estado":False, "mensaje": "No tiene catalogos"}  
@@ -58,21 +44,31 @@ class Catalogos:
         if detalleCatalogo is not None:
             for element in detalleCatalogo:
                 incluye = CatalogosBase.ver_incluye_catalogos(element['idCatalogo'])
-                resultado = {}
-                for item in incluye:
-                    id_servicio = item["idServicio"]
-                    observaciones = item["observaciones"]
-                    if id_servicio not in resultado:
-                        resultado[id_servicio] = {
-                            "idServicio": id_servicio,
-                            "nombreServicio": item["nombreServicio"],
-                            "observaciones": [observaciones],
-                        }
-                    else:
-                        # Si ya está, agrega la observación
-                        resultado[id_servicio]["observaciones"].append(observaciones)
-                output = list(resultado.values())
-                element['incluye'] = output
+                terminos = CatalogosBase.ver_terminos_catalogos(element['idCatalogo'])
+                element['terminos'] = terminos
+                element['incluye'] = Catalogos.unificar_servicios(incluye)
             return {"estado":True, "mensaje": "Consulta completada", "datos": detalleCatalogo}
         else:
-            return {"estado":False, "mensaje": "No tiene catalogos"} 
+            return {"estado":False, "mensaje": "No tiene catalogos"}
+
+    
+    @staticmethod
+    def unificar_servicios(incluye):
+        if incluye:
+            resultado = {}
+            for item in incluye:
+                id_servicio = item["idServicio"]
+                observaciones = item["observaciones"]
+                if id_servicio not in resultado:
+                    resultado[id_servicio] = {
+                        "idServicio": id_servicio,
+                        "nombreServicio": item["nombreServicio"],
+                        "observaciones": [observaciones],
+                    }
+                else:
+                    # Si ya está, agrega la observación
+                    resultado[id_servicio]["observaciones"].append(observaciones)
+            output = list(resultado.values())
+            return output
+        else:
+            return None
