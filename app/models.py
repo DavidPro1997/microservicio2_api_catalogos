@@ -23,7 +23,7 @@ class DestinosBase:
     def ver_destinos(cls):
         db = Database()
         query = """
-                    SELECT d.idDestino, d.destino, estrellas, imagenURL, MIN(l.precio) as precio_minimo, COUNT(l.precio) as numeroCatalogos 
+                    SELECT d.idDestino, d.destino, AVG(l.estrellas) as estrellas, imagenURL, MIN(l.precio) as precio_minimo, COUNT(l.precio) as numeroCatalogos 
                     FROM destinos as d
                     INNER JOIN lista_catalogos as l
                     ON d.idDestino = l.idDestino
@@ -73,9 +73,10 @@ class CatalogosBase:
                 "ninos": resultado[5],
                 "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
                 "noches": resultado[7],
-                "descripcion": resultado[8],     # Ajusta el índice según la estructura de tu tabla
-                "destino": resultado[11],
-                "imagenURL": resultado[13]
+                "descripcion": resultado[8],  
+                "estrellas": resultado[10],   # Ajusta el índice según la estructura de tu tabla
+                "destino": resultado[12],
+                "imagenURL": resultado[14]
             }
             catalogos.append(cat)
         return catalogos if catalogos else None
@@ -106,8 +107,9 @@ class CatalogosBase:
                 "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
                 "noches": resultado[7],
                 "descripcion": resultado[8],     # Ajusta el índice según la estructura de tu tabla
-                "destino": resultado[11],
-                "pdfURL": resultado[9]
+                "destino": resultado[12],
+                "pdfURL": resultado[9],
+                "estrellas": resultado[10]
             }
             catalogos.append(cat)
         return catalogos if catalogos else None
