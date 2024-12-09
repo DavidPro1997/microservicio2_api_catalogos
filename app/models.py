@@ -89,10 +89,8 @@ class CatalogosBase:
             db.close()
             logging.error(f"Hubo un error "+e)
             print(f"Hubo un error "+e)
-            resultado = None
-        finally:
-            db.close()
-            return resultado
+            return None
+        
     
 
 
