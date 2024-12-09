@@ -31,7 +31,7 @@ class Catalogos:
         catalogos = CatalogosBase.ver_catalogos(idDestino)
         if catalogos is not None:
             for element in catalogos:
-                incluye = CatalogosBase.ver_incluye_catalogos(element['idCatalogo'])
+                incluye = CatalogosBase.ver_incluye_catalogos(int(element['idCatalogo']))
                 element['incluye'] = Catalogos.unificar_servicios(incluye)
             return {"estado":True, "mensaje": "Consulta completada", "datos": catalogos}
         else:
