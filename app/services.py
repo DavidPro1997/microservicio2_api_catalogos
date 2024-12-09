@@ -32,7 +32,20 @@ class Catalogos:
         if catalogos is not None:
             for element in catalogos:
                 incluye = CatalogosBase.ver_incluye_catalogos(element['idCatalogo'])
-                element['incluye'] = incluye
+                resultado = {}
+                for item in incluye:
+                    id_servicio = item["idServicio"]
+                    observaciones = item["observaciones"]
+                    if id_servicio not in resultado:
+                        resultado[id_servicio] = {
+                            "idServicio": id_servicio,
+                            "nombreServicio": item["nombreServicio"],
+                            "observaciones": [observaciones],
+                        }
+                    else:
+                        # Si ya está, agrega la observación
+                        resultado[id_servicio]["observaciones"].append(observaciones)
+                element['incluye'] = resultado
             return {"estado":True, "mensaje": "Consulta completada", "datos": catalogos}
         else:
             return {"estado":False, "mensaje": "No tiene catalogos"}  
