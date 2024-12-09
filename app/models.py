@@ -52,7 +52,7 @@ class DestinosBase:
         
 class CatalogosBase:
     @classmethod
-    def ver_catalogos(cls, idDestino):
+    def ver_catalogos(cls, idDestino=None):
         db = Database()
         try:
             query = """

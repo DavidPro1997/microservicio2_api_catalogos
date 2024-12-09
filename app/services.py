@@ -27,7 +27,7 @@ class Destinos:
 
 class Catalogos:
     @staticmethod
-    def ver_catalogos(idDestino):
+    def ver_catalogos(idDestino = None):
         catalogos = CatalogosBase.ver_catalogos(idDestino)
         if catalogos is not None:
             for element in catalogos:

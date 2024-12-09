@@ -46,7 +46,7 @@ def ver_destinos():
 
 @app.route('/verCatalogos', methods=['GET'])
 def ver_catalogos_todos():
-    respuesta = Catalogos.ver_catalogos("")
+    respuesta = Catalogos.ver_catalogos()
     return jsonify(respuesta)
 
 
