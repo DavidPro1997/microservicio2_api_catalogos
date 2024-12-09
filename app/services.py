@@ -1,6 +1,7 @@
 import os
 import logging
 from app.models import DestinosBase, CatalogosBase
+from collections import defaultdict
 
 
 logging.basicConfig(
@@ -33,7 +34,11 @@ class Catalogos:
             for element in catalogos:
                 incluye = CatalogosBase.ver_incluye_catalogos(int(element['idCatalogo']))
                 element['incluye'] = Catalogos.unificar_servicios(incluye)
-            return {"estado":True, "mensaje": "Consulta completada", "datos": catalogos}
+            if idDestino is None:
+                resultado = Catalogos.agrupar_por_idDestino(catalogos)
+                return {"estado":True, "mensaje": "Consulta completada", "datos": resultado}
+            else:
+                return {"estado":True, "mensaje": "Consulta completada", "datos": catalogos}
         else:
             return {"estado":False, "mensaje": "No tiene catalogos"}  
         
@@ -72,3 +77,16 @@ class Catalogos:
             return output
         else:
             return None
+        
+    @staticmethod
+    def agrupar_por_idDestino(lista_catalogos):
+        agrupados = defaultdict(list)  # Creamos un defaultdict para agrupar por idDestino
+        
+        # Iteramos sobre cada catálogo
+        for catalogo in lista_catalogos:
+            id_destino = catalogo.get('idDestino')  # Obtenemos el idDestino
+            agrupados[id_destino].append(catalogo)  # Agrupamos el catálogo según su idDestino
+        
+        # Convertimos el defaultdict a una lista de diccionarios
+        resultado = [{"idDestino": id_destino, "catalogos": catalogos} for id_destino, catalogos in agrupados.items()]
+        return resultado
