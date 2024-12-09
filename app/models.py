@@ -107,7 +107,7 @@ class CatalogosBase:
                 "noches": resultado[7],
                 "descripcion": resultado[8],     # Ajusta el índice según la estructura de tu tabla
                 "destino": resultado[11],
-                "imagenURL": resultado[13]
+                "pdfURL": resultado[9]
             }
             catalogos.append(cat)
         return catalogos if catalogos else None
