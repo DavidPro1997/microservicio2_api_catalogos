@@ -1,5 +1,6 @@
 import mysql.connector
 from app.config import Config 
+import logging
 
 class Database:
     def __init__(self):
@@ -53,36 +54,45 @@ class CatalogosBase:
     @classmethod
     def ver_catalogos(cls, idDestino):
         db = Database()
-        params = []
-        query = """
-                    SELECT * from lista_catalogos as l 
-                    INNER JOIN destinos as d
-                    on l.idDestino = d.idDestino
-                """
-        if idDestino:
-            query += " WHERE l.idDestino = %s"
-            params.append(idDestino)
-        db.cursor.execute(query, params)
-        resultados = db.cursor.fetchall()
-        db.close()
-        catalogos = []
-        for resultado in resultados:
-            cat = {
-                "idCatalogo": resultado[0], 
-                "idDestino": resultado[1],         # Ajusta el índice según la estructura de tu tabla
-                "nombre": resultado[2],     # Ajusta el índice según la estructura de tu tabla
-                "precio": resultado[3], 
-                "adultos": resultado[4],
-                "ninos": resultado[5],
-                "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
-                "noches": resultado[7],
-                "descripcion": resultado[8],  
-                "estrellas": resultado[10],   # Ajusta el índice según la estructura de tu tabla
-                "destino": resultado[12],
-                "imagenURL": resultado[13]
-            }
-            catalogos.append(cat)
-        return catalogos if catalogos else None
+        try:
+            query = """
+                        SELECT * from lista_catalogos as l 
+                        INNER JOIN destinos as d
+                        on l.idDestino = d.idDestino
+                    """
+            if idDestino:
+                query += " WHERE l.idDestino = %s"
+                db.cursor.execute(query, (idDestino,))
+            else:
+                db.cursor.execute(query)
+            resultados = db.cursor.fetchall()
+            db.close()
+            catalogos = []
+            for resultado in resultados:
+                cat = {
+                    "idCatalogo": resultado[0], 
+                    "idDestino": resultado[1],         # Ajusta el índice según la estructura de tu tabla
+                    "nombre": resultado[2],     # Ajusta el índice según la estructura de tu tabla
+                    "precio": resultado[3], 
+                    "adultos": resultado[4],
+                    "ninos": resultado[5],
+                    "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
+                    "noches": resultado[7],
+                    "descripcion": resultado[8],  
+                    "estrellas": resultado[10],   # Ajusta el índice según la estructura de tu tabla
+                    "destino": resultado[12],
+                    "imagenURL": resultado[13]
+                }
+                catalogos.append(cat)
+            return catalogos if catalogos else None
+        except Exception as e:
+            db.close()
+            logging.error(f"Hubo un error "+e)
+            print(f"Hubo un error "+e)
+            resultado = None
+        finally:
+            db.close()
+            return resultado
     
 
 
