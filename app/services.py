@@ -70,7 +70,8 @@ class Catalogos:
                     else:
                         # Si ya está, agrega la observación
                         resultado[id_servicio]["observaciones"].append(observaciones)
-                element['incluye'] = resultado
+                output = list(resultado.values())
+                element['incluye'] = output
             return {"estado":True, "mensaje": "Consulta completada", "datos": detalleCatalogo}
         else:
             return {"estado":False, "mensaje": "No tiene catalogos"} 
