@@ -53,6 +53,8 @@ class DestinosBase:
 class CatalogosBase:
     @classmethod
     def ver_catalogos(cls, idDestino=None):
+        print("Hola")
+        print(idDestino)
         db = Database()
         try:
             query = """
