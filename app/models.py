@@ -53,13 +53,16 @@ class CatalogosBase:
     @classmethod
     def ver_catalogos(cls, idDestino):
         db = Database()
+        params = []
         query = """
                     SELECT * from lista_catalogos as l 
                     INNER JOIN destinos as d
                     on l.idDestino = d.idDestino
-                    where l.idDestino = %s
                 """
-        db.cursor.execute(query, (idDestino,))
+        if idDestino:
+            query += " WHERE l.idDestino = %s"
+            params.append(idDestino)
+        db.cursor.execute(query, params)
         resultados = db.cursor.fetchall()
         db.close()
         catalogos = []
