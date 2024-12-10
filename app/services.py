@@ -137,6 +137,10 @@ class Servicios:
         subconjunto_ids = {item['idServicio'] for item in subconjunto}
         for item in completo:
             item['check'] = item['idServicio'] in subconjunto_ids
+            for sub_item in subconjunto:
+                if sub_item['idServicio'] == item['idServicio']:
+                    item['observaciones'] = sub_item.get('observaciones', None)  # Agregar las observaciones si existen
+                    break
         return completo
           
         
