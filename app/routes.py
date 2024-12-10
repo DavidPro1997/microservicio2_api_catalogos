@@ -1,9 +1,14 @@
-from flask import Flask, request, jsonify
+from flask import Flask, request, jsonify, send_from_directory
+import os
 from app.services import Destinos, Catalogos, Servicios, Terminos
 from flask_cors import CORS
 
 
 app = Flask(__name__)
+
+TEMP_DIR = os.path.abspath(os.path.join(os.path.dirname(__file__), '../pdfCatalogos'))
+if not os.path.exists(TEMP_DIR):
+    os.makedirs(TEMP_DIR)
 
 
 # Configuración de CORS específica con encabezados y métodos permitidos
@@ -49,10 +54,15 @@ def ver_catalogo(idCatalogo):
     return jsonify(respuesta)
 
 
-@app.route('/descargarCatalogo/<int:idCatalogo>', methods=['GET'])
-def descargar_catalogo(idCatalogo):
-    respuesta = Catalogos.descargar_catalogo(idCatalogo)
-    return jsonify(respuesta)
+# @app.route('/descargarCatalogo/<int:idCatalogo>', methods=['GET'])
+# def descargar_catalogo(idCatalogo):
+#     respuesta = Catalogos.descargar_catalogo(idCatalogo)
+#     return jsonify(respuesta)
+
+
+@app.route('/descargarCatalogo/<filename>')
+def descargarpdf(filename):
+    return send_from_directory(TEMP_DIR, filename)
 
 
 ################################# SERVICIOS ####################################
