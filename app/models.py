@@ -92,9 +92,6 @@ class CatalogosBase:
             print(f"Hubo un error "+e)
             return None
         
-    
-
-
     @classmethod
     def ver_catalogo(cls, idCatalogo):
         db = Database()
@@ -126,7 +123,6 @@ class CatalogosBase:
             catalogos.append(cat)
         return catalogos if catalogos else None
 
-
     @classmethod
     def ver_incluye_catalogos(cls, idCatalogo):
         db = Database()
@@ -149,8 +145,6 @@ class CatalogosBase:
             }
             incluye.append(cat)
         return incluye if incluye else None
-    
-
 
     @classmethod
     def ver_terminos_catalogos(cls, idCatalogo):
@@ -175,6 +169,48 @@ class CatalogosBase:
         return terminos if terminos else None
 
 
+################################ SERVICIOS BASE #####################################
+
+class ServicioBase:
+    @classmethod
+    def ver_servicios(cls):
+        db = Database()
+        query = """
+                    select * from servicios
+                """
+        db.cursor.execute(query)
+        resultados = db.cursor.fetchall()
+        db.close()
+        servicios = []
+        for resultado in resultados:
+            servicio = {
+                "idServicio": resultado[0],   
+                "nombreServicio": resultado[1]
+            }
+            servicios.append(servicio)
+        return servicios if servicios else None
+    
+
+################################ TERMINOS BASE #####################################
+
+class TerminosBase:
+    @classmethod
+    def ver_terminos(cls):
+        db = Database()
+        query = """
+                    select * from terminos
+                """
+        db.cursor.execute(query)
+        resultados = db.cursor.fetchall()
+        db.close()
+        terminos = []
+        for resultado in resultados:
+            servicio = {
+                "idTermino": resultado[0],   
+                "termino": resultado[1]
+            }
+            terminos.append(servicio)
+        return terminos if terminos else None
 
 
 

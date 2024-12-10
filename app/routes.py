@@ -1,5 +1,5 @@
 from flask import Flask, request, jsonify
-from app.services import Destinos, Catalogos
+from app.services import Destinos, Catalogos, Servicios, Terminos
 from flask_cors import CORS
 
 
@@ -22,24 +22,11 @@ def index():
 
 ############################ DESTINOS (PAISES) ################################
 
-# @app.route('/crearDestino', methods=['POST'])
-# def crear_destino():
-#     data = request.json
-#     respuesta = Switch.verificar_tipo_doc(data)
-#     return jsonify(respuesta)
-
 
 @app.route('/verDestinos', methods=['GET'])
 def ver_destinos():
     respuesta = Destinos.ver_destinos()
     return jsonify(respuesta)
-
-
-# @app.route('/destino/<int:id>', methods=['GET'])
-# def descargar_plantilla(id):
-#     respuesta = Switch.verificar_tipo_doc_descarga(id)
-#     return jsonify(respuesta)
-
 
 
 ################################# CATALOGOS ####################################
@@ -68,3 +55,17 @@ def descargar_catalogo(idCatalogo):
     return jsonify(respuesta)
 
 
+################################# SERVICIOS ####################################
+
+@app.route('/servicios', methods=['GET'])
+def ver_servicios():
+    respuesta = Servicios.ver_servicios()
+    return jsonify(respuesta)
+
+
+################################# TERMINOS ####################################
+
+@app.route('/terminos', methods=['GET'])
+def ver_terminos():
+    respuesta = Terminos.ver_terminos()
+    return jsonify(respuesta)

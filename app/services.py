@@ -1,6 +1,6 @@
 import os
 import logging
-from app.models import DestinosBase, CatalogosBase
+from app.models import DestinosBase, CatalogosBase, ServicioBase, TerminosBase
 from collections import defaultdict
 import base64
 import requests
@@ -114,3 +114,26 @@ class Catalogos:
         # Convertimos el defaultdict a una lista de diccionarios
         resultado = [{"idDestino": id_destino, "catalogos": catalogos} for id_destino, catalogos in agrupados.items()]
         return resultado
+    
+############################## SERVICIOS LOGICA ############################
+
+class Servicios:
+    @staticmethod
+    def ver_servicios():
+        servicios = ServicioBase.ver_servicios()
+        if servicios is not None:
+            return {"estado":True, "mensaje": "Consulta completada", "datos": servicios}
+        else:
+            return {"estado":False, "mensaje": "No tiene catalogos"}  
+        
+
+############################## TERMINOS LOGICA ############################
+
+class Terminos:
+    @staticmethod
+    def ver_terminos():
+        terminos = TerminosBase.ver_terminos()
+        if terminos is not None:
+            return {"estado":True, "mensaje": "Consulta completada", "datos": terminos}
+        else:
+            return {"estado":False, "mensaje": "No tiene catalogos"}  
