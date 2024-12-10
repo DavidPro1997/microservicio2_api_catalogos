@@ -115,25 +115,50 @@ class Catalogos:
         resultado = [{"idDestino": id_destino, "catalogos": catalogos} for id_destino, catalogos in agrupados.items()]
         return resultado
     
+
 ############################## SERVICIOS LOGICA ############################
 
 class Servicios:
     @staticmethod
-    def ver_servicios():
+    def ver_servicios(idCatalogo):
         servicios = ServicioBase.ver_servicios()
-        if servicios is not None:
-            return {"estado":True, "mensaje": "Consulta completada", "datos": servicios}
+        consulta = Catalogos.ver_catalogo(idCatalogo)
+        if servicios and consulta:
+            catalogo = consulta["datos"][0]
+            serviciosCompletos = Servicios.agregar_check(servicios,catalogo["incluye"]) 
+            return {"estado":True, "mensaje": "Consulta completada", "datos": serviciosCompletos}
         else:
-            return {"estado":False, "mensaje": "No tiene catalogos"}  
+            return {"estado":False, "mensaje": "Consulta completada"}
+
+
+    
+    @staticmethod
+    def agregar_check(completo, subconjunto):
+        subconjunto_ids = {item['idServicio'] for item in subconjunto}
+        for item in completo:
+            item['check'] = item['idServicio'] in subconjunto_ids
+        return completo
+          
         
 
 ############################## TERMINOS LOGICA ############################
 
 class Terminos:
     @staticmethod
-    def ver_terminos():
+    def ver_terminos(idCatalogo):
         terminos = TerminosBase.ver_terminos()
-        if terminos is not None:
-            return {"estado":True, "mensaje": "Consulta completada", "datos": terminos}
+        consulta = Catalogos.ver_catalogo(idCatalogo)
+        if terminos and consulta:
+            catalogo = consulta["datos"][0]
+            terminosCompletos = Terminos.agregar_check(terminos,catalogo["terminos"]) 
+            return {"estado":True, "mensaje": "Consulta completada", "datos": terminosCompletos}
         else:
-            return {"estado":False, "mensaje": "No tiene catalogos"}  
+            return {"estado":False, "mensaje": "Consulta completada"} 
+        
+        
+    @staticmethod
+    def agregar_check(completo, subconjunto):
+        subconjunto_ids = {item['idTermino'] for item in subconjunto}
+        for item in completo:
+            item['check'] = item['idTermino'] in subconjunto_ids
+        return completo

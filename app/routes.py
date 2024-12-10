@@ -57,15 +57,15 @@ def descargar_catalogo(idCatalogo):
 
 ################################# SERVICIOS ####################################
 
-@app.route('/servicios', methods=['GET'])
-def ver_servicios():
-    respuesta = Servicios.ver_servicios()
+@app.route('/servicios/<int:idCatalogo>', methods=['GET'])
+def ver_servicios(idCatalogo):
+    respuesta = Servicios.ver_servicios(idCatalogo)
     return jsonify(respuesta)
 
 
 ################################# TERMINOS ####################################
 
-@app.route('/terminos', methods=['GET'])
-def ver_terminos():
-    respuesta = Terminos.ver_terminos()
+@app.route('/terminos/<int:idCatalogo>', methods=['GET'])
+def ver_terminos(idCatalogo):
+    respuesta = Terminos.ver_terminos(idCatalogo)
     return jsonify(respuesta)
