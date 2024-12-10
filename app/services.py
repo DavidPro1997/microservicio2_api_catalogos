@@ -76,7 +76,7 @@ class Catalogos:
         response = requests.get(url)
         if response.status_code == 200:
             encoded_pdf = base64.b64encode(response.content).decode('utf-8')
-            return f"data:application/pdf;base64,{encoded_pdf}"
+            return encoded_pdf
         else:
             raise Exception(f"Error al descargar el archivo PDF: {response.status_code}")
 
