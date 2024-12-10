@@ -2,6 +2,8 @@ import os
 import logging
 from app.models import DestinosBase, CatalogosBase
 from collections import defaultdict
+import base64
+import requests
 
 
 logging.basicConfig(
@@ -55,6 +57,28 @@ class Catalogos:
             return {"estado":True, "mensaje": "Consulta completada", "datos": detalleCatalogo}
         else:
             return {"estado":False, "mensaje": "No tiene catalogos"}
+        
+
+    @staticmethod
+    def descargar_catalogo(idCatalogo):
+        catalogoArray = CatalogosBase.ver_catalogo(idCatalogo)
+        catalogo = catalogoArray[0]
+        if catalogoArray is not None and catalogo is not None:
+            ruta = f"https://website.mvevip.com/{catalogo['pdfURL']}"
+            base64 = Catalogos.pdf_to_base64(ruta)
+            return {"estado":True, "mensaje": "Consulta completada", "datos": base64}
+        else:
+            return {"estado":False, "mensaje": "No tiene catalogos"}
+    
+
+    @staticmethod
+    def pdf_to_base64(url):
+        response = requests.get(url)
+        if response.status_code == 200:
+            encoded_pdf = base64.b64encode(response.content).decode('utf-8')
+            return encoded_pdf
+        else:
+            raise Exception(f"Error al descargar el archivo PDF: {response.status_code}")
 
     
     @staticmethod

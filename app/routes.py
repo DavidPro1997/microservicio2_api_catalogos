@@ -62,3 +62,9 @@ def ver_catalogo(idCatalogo):
     return jsonify(respuesta)
 
 
+@app.route('/descargarCatalogo/<int:idCatalogo>', methods=['GET'])
+def descargar_catalogo(idCatalogo):
+    respuesta = Catalogos.descargar_catalogo(idCatalogo)
+    return jsonify(respuesta)
+
+
