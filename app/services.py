@@ -87,16 +87,24 @@ class Catalogos:
             resultado = {}
             for item in incluye:
                 id_servicio = item["idServicio"]
-                observaciones = item["observaciones"]
+                id_catalogo_servicio = item["idCatalogoServicio"]
+                detalle = item["observaciones"]
+
+                # Si el servicio aún no está en resultado, agregarlo
                 if id_servicio not in resultado:
                     resultado[id_servicio] = {
                         "idServicio": id_servicio,
                         "nombreServicio": item["nombreServicio"],
-                        "observaciones": [observaciones],
+                        "observaciones": [
+                            {"idCatalogoServicio": id_catalogo_servicio, "detalle": detalle}
+                        ],
                     }
                 else:
-                    # Si ya está, agrega la observación
-                    resultado[id_servicio]["observaciones"].append(observaciones)
+                    # Si el servicio ya existe, agregar la observación al array
+                    resultado[id_servicio]["observaciones"].append(
+                        {"idCatalogoServicio": id_catalogo_servicio, "detalle": detalle}
+                    )
+            # Convertir el resultado a una lista
             output = list(resultado.values())
             return output
         else:

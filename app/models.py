@@ -127,7 +127,7 @@ class CatalogosBase:
     def ver_incluye_catalogos(cls, idCatalogo):
         db = Database()
         query = """
-                    SELECT sc.idCatalogo as idCatalogo, lc.nombre as nombreCatalogo,s.id as idServicio ,s.nombre as tipoServicio ,sc.detalle as observaciones
+                    SELECT sc.idCatalogo as idCatalogo, lc.nombre as nombreCatalogo,s.id as idServicio ,s.nombre as tipoServicio ,sc.detalle as observaciones, sc.id as idCatalogoServicio
                     from catalogos_servicios as sc
                     INNER JOIN servicios as s on sc.idServicio = s.id
                     INNER JOIN lista_catalogos as lc on lc.id = sc.idCatalogo
@@ -141,7 +141,8 @@ class CatalogosBase:
             cat = {
                 "idServicio": resultado[2],         # Ajusta el índice según la estructura de tu tabla
                 "nombreServicio": resultado[3],     # Ajusta el índice según la estructura de tu tabla
-                "observaciones": resultado[4]
+                "observaciones": resultado[4],
+                "idCatalogoServicio": resultado[5]
             }
             incluye.append(cat)
         return incluye if incluye else None
