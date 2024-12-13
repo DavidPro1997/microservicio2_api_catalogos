@@ -143,7 +143,7 @@ class CatalogosBase:
                 "idCatalogoServicio": resultado[5]
             }
             incluye.append(cat)
-        return incluye if incluye else None
+        return incluye
 
     @classmethod
     def ver_terminos_catalogos(cls, idCatalogo):
@@ -165,7 +165,7 @@ class CatalogosBase:
                 "termino": resultado[2]
             }
             terminos.append(term)
-        return terminos if terminos else None
+        return terminos
     
     @classmethod
     def editar_catalogo(cls, idCatalogo, data):
@@ -173,11 +173,11 @@ class CatalogosBase:
         query = """
                     UPDATE lista_catalogos SET 
                     idDestino = %s, nombre = %s, precio = %s, adultos = %s, ninos = %s, dias = %s, noches = %s,
-                    descripcion = %s, estrellas = %s 
+                    descripcion = %s, estrellas = %s, visible = %s
                     WHERE id = %s
                 """
         try:
-            db.cursor.execute(query, (data["idDestino"],data["nombre"],data["precio"],data["adultos"],data["ninos"],data["dias"],data["noches"],data["descripcion"],data["estrellas"],idCatalogo))
+            db.cursor.execute(query, (data["idDestino"],data["nombre"],data["precio"],data["adultos"],data["ninos"],data["dias"],data["noches"],data["descripcion"],data["estrellas"],int(data["visible"]),idCatalogo))
             db.connection.commit()  # Confirma la transacción
             resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
         except Exception as e:
@@ -187,7 +187,23 @@ class CatalogosBase:
             db.close()
             return resultado
 
-
+    @classmethod
+    def agregar_catalogo(cls,data):
+        db = Database()
+        query = """INSERT INTO lista_catalogos (idDestino, nombre, precio,adultos, ninos, dias, noches, descripcion, estrellas, visible) 
+                    VALUES(%s, %s,%s,%s, %s,%s,%s, %s,%s,%s)
+                """
+        try:
+            db.cursor.execute(query, (data["idDestino"],data["nombre"],data["precio"],data["adultos"],data["ninos"],data["dias"],data["noches"],data["descripcion"],data["estrellas"],int(data["visible"])))
+            db.connection.commit()  # Confirma la transacción
+            last_inserted_id = db.cursor.lastrowid
+            resultado = {"estado":True, "mensaje": "Catalogo insertado correctamente", "idCatalogo": last_inserted_id}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al insertar"}
+        finally:
+            db.close()
+            return resultado
 ################################ SERVICIOS BASE #####################################
 
 class ServicioBase:

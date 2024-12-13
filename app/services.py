@@ -61,6 +61,12 @@ class Catalogos:
         
 
     @staticmethod
+    def agregar_catalogo(data):
+        respuesta = CatalogosBase.agregar_catalogo(data)
+        return respuesta
+    
+
+    @staticmethod
     def editar_catalogo(idCatalogo, data):
         respuesta = CatalogosBase.editar_catalogo(idCatalogo, data)
         return respuesta

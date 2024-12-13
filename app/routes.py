@@ -69,6 +69,13 @@ def editar_catalogo_pdf():
     return jsonify(respuesta)
 
 
+@app.route('/agregarCatalogo', methods=['POST'])
+def agregar_catalogo():
+    data = request.json
+    respuesta = Catalogos.agregar_catalogo(data)
+    return jsonify(respuesta)
+
+
 ################################# SERVICIOS EN CATALOGOS ####################################
 
 @app.route('/servicios/<int:idCatalogo>', methods=['GET'])
