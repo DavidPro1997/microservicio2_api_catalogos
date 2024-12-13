@@ -78,8 +78,9 @@ class CatalogosBase:
                     "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
                     "noches": resultado[7],
                     "descripcion": resultado[8],
-                    "estrellas": resultado[9],   # Ajusta el índice según la estructura de tu tabla
-                    "destino": resultado[11]
+                    "estrellas": resultado[9], 
+                    "visible": resultado[10],  # Ajusta el índice según la estructura de tu tabla
+                    "destino": resultado[12]
                 }
                 catalogos.append(cat)
             return catalogos if catalogos else None
@@ -114,7 +115,8 @@ class CatalogosBase:
                 "noches": resultado[7],
                 "descripcion": resultado[8],
                 "estrellas": resultado[9],
-                "destino": resultado[11],
+                "visible": resultado[10],  # Ajusta el índice según la estructura de tu tabla
+                "destino": resultado[12]
             }
             catalogos.append(cat)
         return catalogos if catalogos else None

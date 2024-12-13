@@ -64,6 +64,16 @@ class Catalogos:
     def editar_catalogo(idCatalogo, data):
         respuesta = CatalogosBase.editar_catalogo(idCatalogo, data)
         return respuesta
+    
+
+    @staticmethod
+    def editar_catalogo_pdf(data):
+        ruta = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/catalogo_"+data["idCatalogo"]+".pdf"
+        respuesta = Comun.update_file_from_base64(data["pdf"],ruta)
+        if respuesta:
+            return {"estado":True, "mensaje": "PDF actualizado correctamente"}
+        return {"estado":False, "mensaje": "Error al actualizar pdf"}
+
 
         
 
@@ -239,15 +249,16 @@ class Imagenes:
     def agregar_imagenes(data):
         for imagen in data["imagenes"]:
             url = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/"+imagen["posicion"]+".jpg"
-            resultado = Imagenes.update_image_from_base64(imagen["imagen"], url)
+            resultado = Comun.update_file_from_base64(imagen["imagen"], url)
             if resultado is False:
                 return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
         return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
 
 
-
-
-    def update_image_from_base64(base64_string, url):
+############################## FUNCIONES COMUNES ############################
+class Comun:
+    @staticmethod
+    def update_file_from_base64(base64_string, url):
         system_name = os.name
         if system_name == 'posix':
             ruta_guardado = "/var/www/html/mvevip_website"+url
