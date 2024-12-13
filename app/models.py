@@ -206,23 +206,7 @@ class ServicioBase:
             }
             servicios.append(servicio)
         return servicios if servicios else None
-    
-
-    @classmethod
-    def editar_servicio_catalogo(cls, id, detalle):
-        db = Database()
-        query = "UPDATE catalogos_servicios SET detalle = %s WHERE id = %s"
-        try:
-            db.cursor.execute(query, (detalle,id))
-            db.connection.commit()  # Confirma la transacción
-            resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
-        except Exception as e:
-            db.connection.rollback()  # Revertir si hay un error
-            resultado = {"estado":False, "mensaje": "Hubo un error al modificar los datos"}
-        finally:
-            db.close()
-            return resultado
-        
+            
 
     @classmethod
     def agregar_servicio_catalogo(cls, idCatalogo, idServicio, detalles):

@@ -4,6 +4,7 @@ from app.models import DestinosBase, CatalogosBase, ServicioBase, TerminosBase
 from collections import defaultdict
 import base64
 import requests
+from pathlib import Path
 
 
 logging.basicConfig(
@@ -148,8 +149,14 @@ class Servicios:
     
     @staticmethod
     def editar_servicios_catalogo(data):
-        resultado = ServicioBase.editar_servicio_catalogo(data["idCatalogoServicio"], data["detalle"])
-        return resultado
+        resutadoEliminar = ServicioBase.eliminar_servicio_catalogo_bloque(data["idCatalogo"], data["idServicio"])
+        if resutadoEliminar["estado"]:
+            resultado = ServicioBase.agregar_servicio_catalogo(data["idCatalogo"], data["idServicio"], data["detalle"])
+            if resultado["estado"]:
+                resultado["mensaje"] = "Servicio editado correctamente"
+            return resultado
+        else:
+            return resutadoEliminar
     
 
     @staticmethod
@@ -224,3 +231,39 @@ class Terminos:
         for item in completo:
             item['check'] = item['idTermino'] in subconjunto_ids
         return completo
+    
+
+############################## IMAGENES LOGICA ############################
+class Imagenes:
+    @staticmethod
+    def agregar_imagenes(data):
+        for imagen in data["imagenes"]:
+            url = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/"+imagen["posicion"]+".jpg"
+            resultado = Imagenes.update_image_from_base64(imagen["imagen"], url)
+            if resultado is False:
+                return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
+        return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
+
+
+
+
+    def update_image_from_base64(base64_string, url):
+        system_name = os.name
+        if system_name == 'posix':
+            ruta_guardado = "/var/www/html/mvevip_website"+url
+        elif system_name == 'nt':
+            ruta_guardado = "C:/xampp/htdocs/MarketingVip/mvevip_website"+url
+        else:
+            print(f"El sistema operativo es: {system_name}")
+        try:
+            Path(ruta_guardado).parent.mkdir(parents=True, exist_ok=True)
+            if "," in base64_string:
+                base64_string = base64_string.split(",")[1]
+            imagen_bytes = base64.b64decode(base64_string)
+            with open(ruta_guardado, "wb") as archivo_imagen:
+                archivo_imagen.write(imagen_bytes)
+            return True
+        except Exception as e:
+            print(f"Error al guardar la imagen: {e}")
+            logging.error(f"Error al guardar la imagen: {e}")
+            return False

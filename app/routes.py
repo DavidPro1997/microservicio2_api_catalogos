@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import os
-from app.services import Destinos, Catalogos, Servicios, Terminos
+from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes
 from flask_cors import CORS
 
 
@@ -129,4 +129,12 @@ def agregar_termino():
     respuesta = Terminos.agregar_termino(data)
     return jsonify(respuesta)
 
+
+################################### IMAGENES ################################
+
+@app.route('/agregarImagenes', methods=['POST'])
+def agregar_imagenes():
+    data = request.json
+    respuesta = Imagenes.agregar_imagenes(data)
+    return jsonify(respuesta)
 
