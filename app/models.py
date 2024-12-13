@@ -78,9 +78,8 @@ class CatalogosBase:
                     "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
                     "noches": resultado[7],
                     "descripcion": resultado[8],
-                    "rutaPDF": resultado[9],  
-                    "estrellas": resultado[10],   # Ajusta el índice según la estructura de tu tabla
-                    "destino": resultado[12]
+                    "estrellas": resultado[9],   # Ajusta el índice según la estructura de tu tabla
+                    "destino": resultado[11]
                 }
                 catalogos.append(cat)
             return catalogos if catalogos else None
@@ -114,9 +113,8 @@ class CatalogosBase:
                 "dias": resultado[6],  # Ajusta el índice según la estructura de tu tabla
                 "noches": resultado[7],
                 "descripcion": resultado[8],
-                "pdfURL": resultado[9],
-                "estrellas": resultado[10],
-                "destino": resultado[12],
+                "estrellas": resultado[9],
+                "destino": resultado[11],
             }
             catalogos.append(cat)
         return catalogos if catalogos else None
