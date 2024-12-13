@@ -119,7 +119,7 @@ class CatalogosBase:
                 "destino": resultado[12]
             }
             catalogos.append(cat)
-        return catalogos if catalogos else None
+        return catalogos
 
     @classmethod
     def ver_incluye_catalogos(cls, idCatalogo):
