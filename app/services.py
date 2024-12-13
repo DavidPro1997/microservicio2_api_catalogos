@@ -60,6 +60,13 @@ class Catalogos:
         
 
     @staticmethod
+    def editar_catalogo(idCatalogo, data):
+        respuesta = CatalogosBase.editar_catalogo(idCatalogo, data)
+        return respuesta
+
+        
+
+    @staticmethod
     def descargar_catalogo(idCatalogo):
         catalogoArray = CatalogosBase.ver_catalogo(idCatalogo)
         catalogo = catalogoArray[0]
@@ -137,6 +144,31 @@ class Servicios:
             return {"estado":True, "mensaje": "Consulta completada", "datos": serviciosCompletos}
         else:
             return {"estado":False, "mensaje": "Consulta completada"}
+        
+    
+    @staticmethod
+    def editar_servicios_catalogo(data):
+        resultado = ServicioBase.editar_servicio_catalogo(data["idCatalogoServicio"], data["detalle"])
+        return resultado
+    
+
+    @staticmethod
+    def agregar_servicios_catalogo(data):
+        resultado = ServicioBase.agregar_servicio_catalogo(data["idCatalogo"], data["idServicio"], data["detalle"])
+        return resultado
+    
+        
+
+    @staticmethod
+    def eliminar_servicios_catalogo_bloque(data):
+        resultado = ServicioBase.eliminar_servicio_catalogo_bloque(data["idCatalogo"], data["idServicio"])
+        return resultado
+
+
+    @staticmethod
+    def agregar_servicio(data):
+        resultado = ServicioBase.agregar_servicio(data["nombre"])
+        return resultado
 
 
     
@@ -166,6 +198,24 @@ class Terminos:
             return {"estado":True, "mensaje": "Consulta completada", "datos": terminosCompletos}
         else:
             return {"estado":False, "mensaje": "Consulta completada"} 
+        
+    
+    @staticmethod
+    def agregar_terminos_catalogo(data):
+        resultado = TerminosBase.agregar_terminos_catalogo(data["idCatalogo"], data["terminos"])
+        return resultado
+    
+
+    @staticmethod
+    def agregar_termino(data):
+        resultado = TerminosBase.agregar_termino(data["nombreTermino"])
+        return resultado
+    
+
+    @staticmethod
+    def eliminar_terminos_catalogo(data):
+        resultado = TerminosBase.eliminar_terminos_catalogo(data["idCatalogo"], data["idTermino"])
+        return resultado
         
         
     @staticmethod

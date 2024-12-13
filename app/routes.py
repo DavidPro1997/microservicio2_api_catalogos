@@ -7,8 +7,6 @@ from flask_cors import CORS
 app = Flask(__name__)
 
 
-
-
 # Configuración de CORS específica con encabezados y métodos permitidos
 CORS(app, resources={r"/*": {"origins": ["http://dev.mvevip_website.com","https://website.mvevip.com","https://mvevip.com"]}}, 
      supports_credentials=True, 
@@ -20,7 +18,6 @@ CORS(app, resources={r"/*": {"origins": ["http://dev.mvevip_website.com","https:
 @app.route('/')
 def index():
     return "¡Bienvenido a la API de catalogos de MKV!"
-
 
 
 ############################ DESTINOS (PAISES) ################################
@@ -58,9 +55,14 @@ def descargar_catalogo(idCatalogo):
     return jsonify(respuesta)
 
 
+@app.route('/editarCatalogo/<int:idCatalogo>', methods=['POST'])
+def editar_catalogo(idCatalogo):
+    data = request.json
+    respuesta = Catalogos.editar_catalogo(idCatalogo, data)
+    return jsonify(respuesta)
 
 
-################################# SERVICIOS ####################################
+################################# SERVICIOS EN CATALOGOS ####################################
 
 @app.route('/servicios/<int:idCatalogo>', methods=['GET'])
 def ver_servicios(idCatalogo):
@@ -68,9 +70,63 @@ def ver_servicios(idCatalogo):
     return jsonify(respuesta)
 
 
-################################# TERMINOS ####################################
+@app.route('/editarServicioCatalogo', methods=['POST'])
+def editar_servicios_catalogo():
+    data = request.json
+    respuesta = Servicios.editar_servicios_catalogo(data)
+    return jsonify(respuesta)
+
+
+@app.route('/agregarServicioCatalogo', methods=['POST'])
+def agregar_servicios_catalogo():
+    data = request.json
+    respuesta = Servicios.agregar_servicios_catalogo(data)
+    return jsonify(respuesta)
+
+
+@app.route('/eliminarServiciosCatalogoBloque', methods=['POST'])
+def eliminar_servicios_catalogo_bloque():
+    data = request.json
+    respuesta = Servicios.eliminar_servicios_catalogo_bloque(data)
+    return jsonify(respuesta)
+
+
+################################ SERVICIO PURO ###############################
+
+
+@app.route('/agregarServicio', methods=['POST'])
+def agregar_servicios():
+    data = request.json
+    respuesta = Servicios.agregar_servicio(data)
+    return jsonify(respuesta)
+
+
+################################# TERMINOS CATALOGOS ####################################
 
 @app.route('/terminos/<int:idCatalogo>', methods=['GET'])
 def ver_terminos(idCatalogo):
     respuesta = Terminos.ver_terminos(idCatalogo)
     return jsonify(respuesta)
+
+
+@app.route('/agregarTerminosCatalogo', methods=['POST'])
+def agregar_terminos_catalogo():
+    data = request.json
+    respuesta = Terminos.agregar_terminos_catalogo(data)
+    return jsonify(respuesta)
+
+@app.route('/eliminarTerminosCatalogo', methods=['POST'])
+def eliminar_terminos_catalogo():
+    data = request.json
+    respuesta = Terminos.eliminar_terminos_catalogo(data)
+    return jsonify(respuesta)
+
+################################### TERMINO PURO ################################
+
+@app.route('/agregarTermino', methods=['POST'])
+def agregar_termino():
+    data = request.json
+    respuesta = Terminos.agregar_termino(data)
+    return jsonify(respuesta)
+
+

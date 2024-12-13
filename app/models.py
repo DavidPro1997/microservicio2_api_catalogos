@@ -24,7 +24,7 @@ class DestinosBase:
     def ver_destinos(cls):
         db = Database()
         query = """
-                    SELECT d.idDestino, d.destino, AVG(l.estrellas) as estrellas, imagenURL, MIN(l.precio) as precio_minimo, COUNT(l.precio) as numeroCatalogos 
+                    SELECT d.idDestino, d.destino, AVG(l.estrellas) as estrellas, MIN(l.precio) as precio_minimo, COUNT(l.precio) as numeroCatalogos 
                     FROM destinos as d
                     INNER JOIN lista_catalogos as l
                     ON d.idDestino = l.idDestino
@@ -39,9 +39,8 @@ class DestinosBase:
                 "idDestino": resultado[0],         # Ajusta el índice según la estructura de tu tabla
                 "destino": resultado[1],     # Ajusta el índice según la estructura de tu tabla
                 "estrellas": resultado[2],   # Ajusta el índice según la estructura de tu tabla
-                "imagenURL": resultado[3],     # Ajusta el índice según la estructura de tu tabla
-                "precio_minimo": resultado[4],
-                "catalogos": resultado[5]
+                "precio_minimo": resultado[3],
+                "catalogos": resultado[4]
             }
             destinos.append(destino)
         return destinos if destinos else None
@@ -168,6 +167,26 @@ class CatalogosBase:
             }
             terminos.append(term)
         return terminos if terminos else None
+    
+    @classmethod
+    def editar_catalogo(cls, idCatalogo, data):
+        db = Database()
+        query = """
+                    UPDATE lista_catalogos SET 
+                    idDestino = %s, nombre = %s, precio = %s, adultos = %s, ninos = %s, dias = %s, noches = %s,
+                    descripcion = %s, estrellas = %s 
+                    WHERE id = %s
+                """
+        try:
+            db.cursor.execute(query, (data["idDestino"],data["nombre"],data["precio"],data["adultos"],data["ninos"],data["dias"],data["noches"],data["descripcion"],data["estrellas"],idCatalogo))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al modificar los datos"}
+        finally:
+            db.close()
+            return resultado
 
 
 ################################ SERVICIOS BASE #####################################
@@ -192,6 +211,71 @@ class ServicioBase:
         return servicios if servicios else None
     
 
+    @classmethod
+    def editar_servicio_catalogo(cls, id, detalle):
+        db = Database()
+        query = "UPDATE catalogos_servicios SET detalle = %s WHERE id = %s"
+        try:
+            db.cursor.execute(query, (detalle,id))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al modificar los datos"}
+        finally:
+            db.close()
+            return resultado
+        
+
+    @classmethod
+    def agregar_servicio_catalogo(cls, idCatalogo, idServicio, detalles):
+        db = Database()
+        query = "INSERT INTO catalogos_servicios (idCatalogo, idServicio, detalle) VALUES(%s, %s,%s)"
+        try:
+            for detalle in detalles:
+                db.cursor.execute(query, (idCatalogo,idServicio,detalle))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Servicio insertado correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al insertar"}
+        finally:
+            db.close()
+            return resultado
+        
+    
+    @classmethod
+    def agregar_servicio(cls, nombre):
+        db = Database()
+        query = "INSERT INTO servicios (nombre) VALUES(%s)"
+        try:
+            db.cursor.execute(query, (nombre,))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Servicio insertado correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al insertar"}
+        finally:
+            db.close()
+            return resultado
+                
+        
+    @classmethod
+    def eliminar_servicio_catalogo_bloque(cls, idCatalogo, idServicio):
+        db = Database()
+        query = "DELETE FROM catalogos_servicios WHERE idCatalogo = %s AND idServicio = %s"
+        try:
+            db.cursor.execute(query, (idCatalogo, idServicio))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Servicio eliminado correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": f"Hubo un error al eliminar los datos: {str(e)}"}
+        finally:
+            db.close()
+            return resultado
+    
+
 ################################ TERMINOS BASE #####################################
 
 class TerminosBase:
@@ -212,6 +296,66 @@ class TerminosBase:
             }
             terminos.append(servicio)
         return terminos if terminos else None
+    
+
+    @classmethod
+    def agregar_termino(cls, nombre):
+        db = Database()
+        query = "INSERT INTO terminos (termino) VALUES(%s)"
+        try:
+            db.cursor.execute(query, (nombre,))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Termino insertado correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al insertar"}
+        finally:
+            db.close()
+            return resultado
+    
+    
+    @classmethod
+    def agregar_terminos_catalogo(cls, idCatalogo, terminos):
+        db = Database()
+        query = "INSERT INTO catalogos_terminos (idCatalogo, idTermino) VALUES(%s,%s)"
+        try:
+            for termino in terminos:
+                db.cursor.execute(query, (idCatalogo,int(termino)))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Terminos insertados correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": "Hubo un error al insertar"}
+        finally:
+            db.close()
+            return resultado
+        
+
+    @classmethod
+    def eliminar_terminos_catalogo(cls, idCatalogo, idTermino):
+        db = Database()
+        query = "DELETE FROM catalogos_terminos WHERE idCatalogo = %s AND idTermino = %s"
+        try:
+            db.cursor.execute(query, (idCatalogo, idTermino))
+            db.connection.commit()  # Confirma la transacción
+            resultado = {"estado":True, "mensaje": "Servicio eliminado correctamente"}
+        except Exception as e:
+            db.connection.rollback()  # Revertir si hay un error
+            resultado = {"estado":False, "mensaje": f"Hubo un error al eliminar los datos: {str(e)}"}
+        finally:
+            db.close()
+            return resultado
+
+
+
+
+
+
+
+
+
+
+
 
 
 
