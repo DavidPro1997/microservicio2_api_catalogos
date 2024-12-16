@@ -62,7 +62,7 @@ def editar_catalogo(idCatalogo):
     return jsonify(respuesta)
 
 
-@app.route('/editarCatalogoPDF', methods=['POST'])
+@app.route('/agregarCatalogoPDF', methods=['POST'])
 def editar_catalogo_pdf():
     data = request.json
     respuesta = Catalogos.editar_catalogo_pdf(data)
