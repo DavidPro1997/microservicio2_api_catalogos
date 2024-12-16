@@ -49,7 +49,7 @@ class Catalogos:
     @staticmethod
     def ver_catalogo(idCatalogo):
         detalleCatalogo = CatalogosBase.ver_catalogo(idCatalogo)
-        if detalleCatalogo is not None:
+        if detalleCatalogo:
             for element in detalleCatalogo:
                 incluye = CatalogosBase.ver_incluye_catalogos(element['idCatalogo'])
                 terminos = CatalogosBase.ver_terminos_catalogos(element['idCatalogo'])
@@ -132,7 +132,7 @@ class Catalogos:
             output = list(resultado.values())
             return output
         else:
-            return None
+            return []
         
     @staticmethod
     def agrupar_por_idDestino(lista_catalogos):

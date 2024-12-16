@@ -223,7 +223,7 @@ class ServicioBase:
                 "nombreServicio": resultado[1]
             }
             servicios.append(servicio)
-        return servicios if servicios else None
+        return servicios
             
 
     @classmethod
