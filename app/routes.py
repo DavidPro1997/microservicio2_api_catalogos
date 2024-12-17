@@ -2,6 +2,7 @@ from flask import Flask, request, jsonify
 import os
 from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes
 from flask_cors import CORS
+import logging
 
 
 app = Flask(__name__)
@@ -86,6 +87,7 @@ def ver_servicios(idCatalogo):
 
 @app.route('/editarServicioCatalogo', methods=['POST'])
 def editar_servicios_catalogo():
+    logging.info("oeeeee")
     data = request.json
     respuesta = Servicios.editar_servicios_catalogo(data)
     return jsonify(respuesta)

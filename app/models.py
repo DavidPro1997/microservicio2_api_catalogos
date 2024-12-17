@@ -269,6 +269,7 @@ class ServicioBase:
             resultado = {"estado":True, "mensaje": "Servicio eliminado correctamente"}
         except Exception as e:
             db.connection.rollback()  # Revertir si hay un error
+            logging.error(f"Hubo un error al eliminar los datos: {str(e)}")
             resultado = {"estado":False, "mensaje": f"Hubo un error al eliminar los datos: {str(e)}"}
         finally:
             db.close()
