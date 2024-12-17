@@ -165,7 +165,7 @@ class Servicios:
     
     @staticmethod
     def editar_servicios_catalogo(data):
-        logging.info("oeeeee")
+        logging.info("aqui ya no vino")
         resutadoEliminar = ServicioBase.eliminar_servicio_catalogo_bloque(data["idCatalogo"], data["idServicio"])
         if resutadoEliminar["estado"]:
             resultado = ServicioBase.agregar_servicio_catalogo(data["idCatalogo"], data["idServicio"], data["detalle"])
