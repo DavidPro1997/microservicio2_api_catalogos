@@ -347,6 +347,31 @@ class TerminosBase:
             return resultado
 
 
+################################### BANCOS ###############################
+
+class BancosBase:
+    @classmethod
+    def ver_bancos(cls):
+        db = Database()
+        query = """
+                    SELECT *
+                    FROM bancos
+                """
+        db.cursor.execute(query)
+        resultados = db.cursor.fetchall()
+        db.close()
+        destinos = []
+        for resultado in resultados:
+            destino = {
+                "idBanco": resultado[0],         # Ajusta el índice según la estructura de tu tabla
+                "nombre": resultado[1],     # Ajusta el índice según la estructura de tu tabla
+                "link": resultado[2],   # Ajusta el índice según la estructura de tu tabla
+                "visible": resultado[3],
+                "descripcion": resultado[4]
+            }
+            destinos.append(destino)
+        return destinos
+
 
 
 

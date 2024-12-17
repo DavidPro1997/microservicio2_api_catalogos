@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import os
-from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes
+from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes, Bancos
 from flask_cors import CORS
 import logging
 
@@ -154,3 +154,12 @@ def agregar_imagenes():
     respuesta = Imagenes.agregar_imagenes(data)
     return jsonify(respuesta)
 
+
+
+#################################### BANCOS ##################################
+
+
+@app.route('/verBancos', methods=['GET'])
+def ver_bancos():
+    respuesta = Bancos.ver_bancos()
+    return jsonify(respuesta)

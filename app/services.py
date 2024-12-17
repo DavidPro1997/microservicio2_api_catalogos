@@ -1,6 +1,6 @@
 import os
 import logging
-from app.models import DestinosBase, CatalogosBase, ServicioBase, TerminosBase
+from app.models import DestinosBase, CatalogosBase, ServicioBase, TerminosBase, BancosBase
 from collections import defaultdict
 import base64
 import requests
@@ -262,6 +262,17 @@ class Imagenes:
         return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
 
 
+############################## DESTINOS LOGICA ############################
+
+class Bancos:
+    @staticmethod
+    def ver_bancos():
+        bancos = BancosBase.ver_bancos()
+        if bancos:
+            return {"estado":True, "mensaje": "Consulta completada", "datos": bancos}
+        else:
+            return {"estado":False, "mensaje": "No tiene destinos"}   
+
 ############################## FUNCIONES COMUNES ############################
 class Comun:
     @staticmethod
@@ -285,3 +296,5 @@ class Comun:
             print(f"Error al guardar la imagen: {e}")
             logging.error(f"Error al guardar la imagen: {e}")
             return False
+
+
