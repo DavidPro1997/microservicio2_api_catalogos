@@ -367,7 +367,8 @@ class BancosBase:
                 "nombre": resultado[1],     # Ajusta el índice según la estructura de tu tabla
                 "link": resultado[2],   # Ajusta el índice según la estructura de tu tabla
                 "visible": resultado[3],
-                "descripcion": resultado[4]
+                "descripcion": resultado[4],
+                "activo": resultado[5]
             }
             destinos.append(destino)
         return destinos
