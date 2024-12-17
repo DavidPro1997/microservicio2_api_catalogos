@@ -89,7 +89,7 @@ def ver_servicios(idCatalogo):
 def editar_servicios_catalogo():
     logging.info("realizando edicion de catalogo")
     data = request.json
-    respuesta = Servicios.editar_servicios_catalogo(data)
+    respuesta = Servicios.editar_servicios_catalogo_service(data)
     return jsonify(respuesta)
 
 

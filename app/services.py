@@ -164,7 +164,7 @@ class Servicios:
         
     
     @staticmethod
-    def editar_servicios_catalogo(data):
+    def editar_servicios_catalogo_service(data):
         logging.info("aqui ya no vino")
         resutadoEliminar = ServicioBase.eliminar_servicio_catalogo_bloque(data["idCatalogo"], data["idServicio"])
         if resutadoEliminar["estado"]:
