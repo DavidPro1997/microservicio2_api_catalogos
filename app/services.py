@@ -88,7 +88,7 @@ class Catalogos:
         catalogoArray = CatalogosBase.ver_catalogo(idCatalogo)
         catalogo = catalogoArray[0]
         if catalogoArray is not None and catalogo is not None:
-            ruta = f"https://website.mvevip.com/{catalogo['pdfURL']}"
+            ruta = f"https://website.mvevip.com/img/destinos/destino_{catalogo['idDestino']}/catalogo_{catalogo['idCatalogo']}/catalogo_{catalogo['idCatalogo']}.pdf"
             base64 = Catalogos.pdf_to_base64(ruta)
             return {"estado":True, "mensaje": "Consulta completada", "datos": base64}
         else:
