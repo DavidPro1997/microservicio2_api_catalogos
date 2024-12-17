@@ -87,7 +87,7 @@ def ver_servicios(idCatalogo):
 
 @app.route('/editarServicioCatalogo', methods=['POST'])
 def editar_servicios_catalogo():
-    logging.info("oeeeee")
+    logging.info("realizando edicion de catalogo")
     data = request.json
     respuesta = Servicios.editar_servicios_catalogo(data)
     return jsonify(respuesta)
