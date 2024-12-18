@@ -278,7 +278,7 @@ class Bancos:
         resultado = BancosBase.ver_banco(idBanco)
         banco = resultado[0]
         if banco:
-            ruta = f"/img/bancos/banco_{banco["idBanco"]}/campanas"
+            ruta = f"/img/bancos/banco_{banco['idBanco']}/campanas"
             imagenes = Bancos.contar_archivos(ruta)
             if imagenes is not None:
                 banco["numImagenes"] = imagenes
