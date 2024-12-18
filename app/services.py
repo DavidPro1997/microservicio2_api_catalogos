@@ -271,7 +271,51 @@ class Bancos:
         if bancos:
             return {"estado":True, "mensaje": "Consulta completada", "datos": bancos}
         else:
-            return {"estado":False, "mensaje": "No tiene destinos"}   
+            return {"estado":False, "mensaje": "No tiene destinos"} 
+
+    @staticmethod
+    def ver_banco(idBanco):
+        resultado = BancosBase.ver_banco(idBanco)
+        banco = resultado[0]
+        if banco:
+            ruta = f"/img/bancos/banco_{banco["idBanco"]}/campanas"
+            imagenes = Bancos.contar_archivos(ruta)
+            if imagenes is not None:
+                banco["numImagenes"] = imagenes
+                return {"estado":True, "mensaje": "Consulta completada", "datos": banco}
+            return {"estado":False, "mensaje": "Error al calcular las campañas"} 
+        else:
+            return {"estado":False, "mensaje": "No tiene bancos"}   
+        
+
+    @staticmethod
+    def contar_archivos(url):
+        system_name = os.name
+        if system_name == 'posix':
+            ruta_carpeta = "/var/www/html/mvevip_website"+url
+        elif system_name == 'nt':
+            ruta_carpeta = "C:/xampp/htdocs/MarketingVip/mvevip_website"+url
+        else:
+            print(f"El sistema operativo es: {system_name}")
+            logging.error(f"El sistema operativo es: {system_name}")
+            return None
+        try:
+            # Verificar si la ruta es válida
+            if not os.path.exists(ruta_carpeta):
+                print("La ruta no existe.")
+                logging.error("La ruta no existe.")
+                return None
+            
+            # Obtener todos los archivos en la carpeta
+            archivos = [f for f in os.listdir(ruta_carpeta) if os.path.isfile(os.path.join(ruta_carpeta, f))]
+            
+            # Retornar la cantidad de archivos
+            return len(archivos)
+        
+        except Exception as e:
+            logging.error(f"Ocurrió un error: {e}")
+            print(f"Ocurrió un error: {e}")
+            return None
 
 ############################## FUNCIONES COMUNES ############################
 class Comun:
@@ -284,6 +328,8 @@ class Comun:
             ruta_guardado = "C:/xampp/htdocs/MarketingVip/mvevip_website"+url
         else:
             print(f"El sistema operativo es: {system_name}")
+            logging.error(f"El sistema operativo es: {system_name}")
+            return False
         try:
             Path(ruta_guardado).parent.mkdir(parents=True, exist_ok=True)
             if "," in base64_string:

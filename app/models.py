@@ -360,7 +360,7 @@ class BancosBase:
         db.cursor.execute(query)
         resultados = db.cursor.fetchall()
         db.close()
-        destinos = []
+        bancos = []
         for resultado in resultados:
             destino = {
                 "idBanco": resultado[0],         # Ajusta el índice según la estructura de tu tabla
@@ -370,8 +370,32 @@ class BancosBase:
                 "descripcion": resultado[4],
                 "activo": resultado[5]
             }
-            destinos.append(destino)
-        return destinos
+            bancos.append(destino)
+        return bancos
+    
+    @classmethod
+    def ver_banco(cls, idBanco):
+        db = Database()
+        query = """
+                    SELECT *
+                    FROM bancos
+                    WHERE idBanco = %s
+                """
+        db.cursor.execute(query, (idBanco,))
+        resultados = db.cursor.fetchall()
+        db.close()
+        bancos = []
+        for resultado in resultados:
+            destino = {
+                "idBanco": resultado[0],         # Ajusta el índice según la estructura de tu tabla
+                "nombre": resultado[1],     # Ajusta el índice según la estructura de tu tabla
+                "link": resultado[2],   # Ajusta el índice según la estructura de tu tabla
+                "visible": resultado[3],
+                "descripcion": resultado[4],
+                "activo": resultado[5]
+            }
+            bancos.append(destino)
+        return bancos
 
 
 

@@ -163,3 +163,8 @@ def agregar_imagenes():
 def ver_bancos():
     respuesta = Bancos.ver_bancos()
     return jsonify(respuesta)
+
+@app.route('/verBanco/<int:idBanco>', methods=['GET'])
+def ver_banco(idBanco):
+    respuesta = Bancos.ver_banco(idBanco)
+    return jsonify(respuesta)
