@@ -168,3 +168,9 @@ def ver_bancos():
 def ver_banco(idBanco):
     respuesta = Bancos.ver_banco(idBanco)
     return jsonify(respuesta)
+
+@app.route('/agregarBanco', methods=['POST'])
+def verificar_banco():
+    data = request.json
+    respuesta = Bancos.verificar_banco(data)
+    return jsonify(respuesta)

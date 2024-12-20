@@ -283,7 +283,6 @@ class Bancos:
             if imagenes is not None:
                 banco["numImagenes"] = imagenes
                 return {"estado":True, "mensaje": "Consulta completada", "datos": banco}
-            return {"estado":False, "mensaje": "Error al calcular las campañas"} 
         else:
             return {"estado":False, "mensaje": "No tiene bancos"}   
         
@@ -298,13 +297,13 @@ class Bancos:
         else:
             print(f"El sistema operativo es: {system_name}")
             logging.error(f"El sistema operativo es: {system_name}")
-            return None
+            return 0
         try:
             # Verificar si la ruta es válida
             if not os.path.exists(ruta_carpeta):
                 print("La ruta no existe.")
                 logging.error("La ruta no existe.")
-                return None
+                return 0
             
             # Obtener todos los archivos en la carpeta
             archivos = [f for f in os.listdir(ruta_carpeta) if os.path.isfile(os.path.join(ruta_carpeta, f))]
@@ -315,7 +314,32 @@ class Bancos:
         except Exception as e:
             logging.error(f"Ocurrió un error: {e}")
             print(f"Ocurrió un error: {e}")
-            return None
+            return 0
+
+    @staticmethod
+    def verificar_banco(data):
+        aux = True
+        if data["imagenes"]:
+            for imagenes in data["imagenes"]:
+                if imagenes["posicion"] == '1':
+                    ruta = "img/bancos/banco_"+data["idBanco"]+"/main.png"
+                    log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
+                    if log_imagen == False:
+                        aux = False
+                else:
+                    ruta = "img/bancos/banco_"+data["idBanco"]+"/campanas/"+imagenes["posicion"]+".jpg"
+                    log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
+                    if log_imagen == False:
+                        aux = False
+        data["imagenes"] = ""
+        if data["idBanco"]:
+            if aux:
+                return BancosBase.editar_banco(data)
+        else:
+            if aux:
+                return BancosBase.agregar_banco(data)
+        return {"estado":False, "mensaje": "Ocurrio un error con las imagenes"} 
+
 
 ############################## FUNCIONES COMUNES ############################
 class Comun:
