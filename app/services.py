@@ -327,7 +327,9 @@ class Bancos:
                     if log_imagen == False:
                         aux = False
                 else:
-                    ruta = "/img/bancos/banco_"+data["idBanco"]+"/campanas/"+imagenes["posicion"]+".jpg"
+                    posicion = int(imagenes["posicion"])-1
+                    posicion = str(posicion)
+                    ruta = "/img/bancos/banco_"+data["idBanco"]+"/campanas/"+posicion+".jpg"
                     log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
                     if log_imagen == False:
                         aux = False
