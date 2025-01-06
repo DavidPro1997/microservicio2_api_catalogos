@@ -363,6 +363,7 @@ class Comun:
             imagen_bytes = base64.b64decode(base64_string)
             with open(ruta_guardado, "wb") as archivo_imagen:
                 archivo_imagen.write(imagen_bytes)
+            logging.info(f"Imagen Guardada")
             return True
         except Exception as e:
             print(f"Error al guardar la imagen: {e}")
