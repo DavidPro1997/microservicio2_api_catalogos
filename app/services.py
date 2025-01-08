@@ -262,7 +262,13 @@ class Imagenes:
                     return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
             return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
         else:
-            return {"estado":True, "mensaje": "hola mijo"}
+            url = "/img/destinos/destino_"+data["idDestino"]+"/header_destino_"+data["idDestino"]+".jpg"
+            if "imagen" in data and data["imagen"]:
+                resultado = Comun.update_file_from_base64(data["imagen"], url)
+                if resultado is True:
+                    return {"estado":True, "mensaje": "Se ha guardado la imagen correctamente"}
+            return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
+
 
 
 ############################## DESTINOS LOGICA ############################
