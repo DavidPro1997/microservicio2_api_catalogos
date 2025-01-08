@@ -254,7 +254,7 @@ class Terminos:
 class Imagenes:
     @staticmethod
     def agregar_imagenes(data):
-        if data["imagenes"]:
+        if "imagenes" in data and data["imagenes"]:
             for imagen in data["imagenes"]:
                 url = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/"+imagen["posicion"]+".jpg"
                 resultado = Comun.update_file_from_base64(imagen["imagen"], url)
