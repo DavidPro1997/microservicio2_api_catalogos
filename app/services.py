@@ -254,12 +254,15 @@ class Terminos:
 class Imagenes:
     @staticmethod
     def agregar_imagenes(data):
-        for imagen in data["imagenes"]:
-            url = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/"+imagen["posicion"]+".jpg"
-            resultado = Comun.update_file_from_base64(imagen["imagen"], url)
-            if resultado is False:
-                return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
-        return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
+        if data["imagenes"]:
+            for imagen in data["imagenes"]:
+                url = "/img/destinos/destino_"+data["idDestino"]+"/catalogo_"+data["idCatalogo"]+"/"+imagen["posicion"]+".jpg"
+                resultado = Comun.update_file_from_base64(imagen["imagen"], url)
+                if resultado is False:
+                    return {"estado":False, "mensaje": "Hubo un error al insertar las imagenes"}
+            return {"estado":True, "mensaje": "Imagenes insertadas correctamente"}
+        else:
+            return {"estado":True, "mensaje": "hola mijo"}
 
 
 ############################## DESTINOS LOGICA ############################
