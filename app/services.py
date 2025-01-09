@@ -1,4 +1,5 @@
 import os
+import shutil
 import logging
 from app.models import DestinosBase, CatalogosBase, ServicioBase, TerminosBase, BancosBase
 from collections import defaultdict
@@ -355,7 +356,16 @@ class Bancos:
             if aux:
                 return BancosBase.agregar_banco(data)
         return {"estado":False, "mensaje": "Ocurrio un error con las imagenes"} 
+    
 
+    @staticmethod
+    def eliminar_campana(data):
+        if data["idBanco"] and data["posicion"]:
+            ruta = "/img/bancos/banco_"+data["idBanco"]+"/campanas/"+data["posicion"]+".jpg"
+            log_imagen = Comun.eliminar_recurso(ruta)
+            if log_imagen == True:
+                return {"estado":True, "mensaje": "Se ha eliminado correctamente la imagem"}
+            return {"estado":False, "mensaje": "Ocurrio un error al eliminar las imagenes"}
 
 ############################## FUNCIONES COMUNES ############################
 class Comun:
@@ -382,6 +392,27 @@ class Comun:
         except Exception as e:
             print(f"Error al guardar la imagen: {e}")
             logging.error(f"Error al guardar la imagen: {e}")
+            return False
+        
+    
+    @staticmethod
+    def eliminar_recurso(url):
+        system_name = os.name
+        if system_name == 'posix':
+            ruta = "/var/www/html/mvevip_website"+url
+        elif system_name == 'nt':
+            ruta = "C:/xampp/htdocs/MarketingVip/mvevip_website"+url
+        else:
+            print(f"El sistema operativo es: {system_name}")
+            logging.error(f"El sistema operativo es: {system_name}")
+            return False
+        try:
+            if os.path.isfile(ruta):
+                os.remove(ruta)
+                return True
+            else:
+                return True
+        except Exception as e:
             return False
 
 

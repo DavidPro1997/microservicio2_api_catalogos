@@ -174,3 +174,10 @@ def verificar_banco():
     data = request.json
     respuesta = Bancos.verificar_banco(data)
     return jsonify(respuesta)
+
+
+@app.route('/eliminarCampanaImagen', methods=['POST'])
+def eliminar_campana():
+    data = request.json
+    respuesta = Bancos.eliminar_campana(data)
+    return jsonify(respuesta)
