@@ -331,12 +331,17 @@ class Bancos:
         if data["imagenes"]:
             for imagenes in data["imagenes"]:
                 if imagenes["posicion"] == '1':
-                    ruta = "/img/bancos/banco_"+data["idBanco"]+"/main.png"
+                    ruta = "/img/bancos/banco_"+data["idBanco"]+"/main.jpg"
+                    log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
+                    if log_imagen == False:
+                        aux = False
+                elif imagenes["posicion"] == '2':
+                    ruta = "/img/bancos/banco_"+data["idBanco"]+"/header_"+data["idBanco"]+".jpg"
                     log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
                     if log_imagen == False:
                         aux = False
                 else:
-                    posicion = int(imagenes["posicion"])-1
+                    posicion = int(imagenes["posicion"])-2
                     posicion = str(posicion)
                     ruta = "/img/bancos/banco_"+data["idBanco"]+"/campanas/"+posicion+".jpg"
                     log_imagen = Comun.update_file_from_base64(imagenes["imagen"], ruta)
