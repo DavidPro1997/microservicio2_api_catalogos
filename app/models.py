@@ -409,7 +409,7 @@ class BancosBase:
                     WHERE idBanco = %s
                 """
         try:
-            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"]), data["idBanco"], int(data["orden"])))
+            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"]), int(data["orden"]), data["idBanco"]))
             db.connection.commit()  # Confirma la transacción
             resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
         except Exception as e:
