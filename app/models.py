@@ -405,11 +405,11 @@ class BancosBase:
         db = Database()
         query = """
                     UPDATE bancos SET 
-                    nombre = %s, link = %s, visible = %s, descripcion = %s, activo = %s
+                    nombre = %s, link = %s, visible = %s, descripcion = %s, activo = %s, orden = %s
                     WHERE idBanco = %s
                 """
         try:
-            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"]), data["idBanco"]))
+            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"]), data["idBanco"], int(data["orden"])))
             db.connection.commit()  # Confirma la transacción
             resultado = {"estado":True, "mensaje": "Datos actualizados correctamente"}
         except Exception as e:
@@ -423,11 +423,11 @@ class BancosBase:
     @classmethod
     def agregar_banco(cls,data):
         db = Database()
-        query = """INSERT INTO bancos (nombre, link,visible, descripcion, activo) 
-                    VALUES(%s, %s,%s,%s, %s)
+        query = """INSERT INTO bancos (nombre, link,visible, descripcion, activo, orden) 
+                    VALUES(%s, %s,%s,%s, %s, %s)
                 """
         try:
-            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"])))
+            db.cursor.execute(query, (data["nombre"],data["link"],int(data["visible"]),data["descripcion"],int(data["activo"]), int(data["orden"])))
             db.connection.commit()  # Confirma la transacción
             last_inserted_id = db.cursor.lastrowid
             resultado = {"estado":True, "mensaje": "Catalogo insertado correctamente", "idBanco": last_inserted_id}
