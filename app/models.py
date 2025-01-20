@@ -368,7 +368,8 @@ class BancosBase:
                 "link": resultado[2],   # Ajusta el índice según la estructura de tu tabla
                 "visible": resultado[3],
                 "descripcion": resultado[4],
-                "activo": resultado[5]
+                "activo": resultado[5],
+                "orden": resultado[6]
             }
             bancos.append(destino)
         return bancos
@@ -392,7 +393,8 @@ class BancosBase:
                 "link": resultado[2],   # Ajusta el índice según la estructura de tu tabla
                 "visible": resultado[3],
                 "descripcion": resultado[4],
-                "activo": resultado[5]
+                "activo": resultado[5],
+                "orden": resultado[6]
             }
             bancos.append(destino)
         return bancos
