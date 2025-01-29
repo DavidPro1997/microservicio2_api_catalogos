@@ -3,7 +3,7 @@ import os
 from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes, Bancos
 # from flask_cors import CORS
 import logging
-
+ 
 
 app = Flask(__name__)
 
