@@ -366,6 +366,23 @@ class Bancos:
             if log_imagen == True:
                 return {"estado":True, "mensaje": "Se ha eliminado correctamente la imagem"}
             return {"estado":False, "mensaje": "Ocurrio un error al eliminar las imagenes"}
+        
+        
+    @staticmethod
+    def descargar_banco(idBanco):
+        ruta = f"https://mvevip.com/img/bancos/banco_{idBanco}/banco_{idBanco}.pdf"
+        base64 = Catalogos.pdf_to_base64(ruta)
+        return {"estado":True, "mensaje": "Consulta completada", "datos": base64}
+    
+    
+    @staticmethod
+    def agregar_catalogo_banco_pdf(data):
+        ruta = "/img/bancos/banco_"+data["idBanco"]+"/banco_"+data["idBanco"]+".pdf"
+        respuesta = Comun.update_file_from_base64(data["pdf"],ruta)
+        if respuesta:
+            return {"estado":True, "mensaje": "PDF actualizado correctamente"}
+        return {"estado":False, "mensaje": "Error al actualizar pdf"}
+
 
 ############################## FUNCIONES COMUNES ############################
 class Comun:

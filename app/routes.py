@@ -181,3 +181,16 @@ def eliminar_campana():
     data = request.json
     respuesta = Bancos.eliminar_campana(data)
     return jsonify(respuesta)
+
+
+@app.route('/descargarBanco/<int:idBanco>', methods=['GET'])
+def descargar_banco(idBanco):
+    respuesta = Bancos.descargar_banco(idBanco)
+    return jsonify(respuesta)
+
+
+@app.route('/agregarCatalogoBancoPDF', methods=['POST'])
+def agregar_catalogo_banco_pdf():
+    data = request.json
+    respuesta = Bancos.agregar_catalogo_banco_pdf(data)
+    return jsonify(respuesta)
