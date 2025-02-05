@@ -1,6 +1,6 @@
 from flask import Flask, request, jsonify
 import os
-from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes, Bancos
+from app.services import Destinos, Catalogos, Servicios, Terminos, Imagenes, Bancos, Google
 from flask_cors import CORS
 import logging
  
@@ -194,3 +194,18 @@ def agregar_catalogo_banco_pdf():
     data = request.json
     respuesta = Bancos.agregar_catalogo_banco_pdf(data)
     return jsonify(respuesta)
+
+
+
+#################################### COMENTARIOS ##################################
+
+
+@app.route('/verComentarios', methods=['GET'])
+def ver_comentarios():
+    respuesta = Google.ver_comentarios()
+    return jsonify(respuesta)
+
+
+
+
+
