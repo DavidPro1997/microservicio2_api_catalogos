@@ -389,7 +389,7 @@ class Bancos:
 class Google:
     @staticmethod
     def ver_comentarios():
-        API_KEY = "AIzaSyD8QClntqBlQF31MY7zc3x_AdUUq_AA6wA"
+        API_KEY = "AIzaSyCFbtiQ1Qi8UhexHE5OtkU9XOsayi9ozYo"
         PLACE_ID = "ChIJP-rRHHua1ZERJ9tpyH6hMtg"
 
         URL = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={PLACE_ID}&fields=reviews&key={API_KEY}&language=es"
