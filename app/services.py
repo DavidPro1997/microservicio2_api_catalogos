@@ -389,19 +389,19 @@ class Bancos:
 class Google:
     @staticmethod
     def ver_comentarios():
-        API_KEY = "AIzaSyCFbtiQ1Qi8UhexHE5OtkU9XOsayi9ozYo"
+        API_KEY = "AIzaSyD8QClntqBlQF31MY7zc3x_AdUUq_AA6wA"
         PLACE_ID = "ChIJP-rRHHua1ZERJ9tpyH6hMtg"
 
-        # URL de la API de Google Places
-        URL = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={PLACE_ID}&fields=reviews&key={API_KEY}"
+        URL = f"https://maps.googleapis.com/maps/api/place/details/json?place_id={PLACE_ID}&fields=reviews&key={API_KEY}&language=es"
+        # URL = f"https://maps.googleapis.com/maps/api/place/details/json?fields=name%2Crating%2Cformatted_phone_number&place_id={PLACE_ID}&key={API_KEY}"
         response = requests.get(URL)
         
         if response.status_code == 200:
-            data = response.json()
-            return {"estado": True, "datos": data, "mensaje":"Se han econtrado comentarios"}
+            data = response.json()            
+            return {"estado": True, "datos": data, "mensaje": "Se han encontrado los comentarios"}
         else:
             print("Error en la solicitud:", response.status_code)
-            return {"estado": False, "datos": "Hubo un error al extraer los comentarios",}
+            return {"estado": False, "datos": "Hubo un error al extraer los comentarios"}
 
 
 ############################## FUNCIONES COMUNES ############################
